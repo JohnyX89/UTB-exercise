@@ -7,84 +7,75 @@ import { Headline } from "../Headline";
 declare var window: any;
 
 const ContractInfo = () => {
-  const [balance, setBalance] = useState<string>("");
-  const [address, setAddress] = useState<string>("");
+  const [supplyNFT, setSupplyNFT] = useState(Number);
+  const [balanceNFT, setBalanceNFT] = useState(Number);
+  const [addressNFT, setAddressNFT] = useState<string>("");
+  const [tokenOwner, setTokenOwner] = useState<string>("");
 
-  let provider: any;
-  if ((window as any).ethereum !== undefined) {
-    provider = new ethers.providers.Web3Provider((window as any).ethereum);
-  } else {
-    alert(`Please install Metamask`);
-  }
+  const [balanceUTB, setBalanceUTB] = useState<string>("");
+  const [addressUTB, setAddressUTB] = useState<string>("");
+  const [currentNumber, setCurrentNumber] = useState(Number);
 
-  const contractUTB = new ethers.Contract(
-    "0xeaBf5199C9A7DF84C94e2Cb97EE458ab65Fa42dF",
-    [
-      "function totalSupply() view returns(uint256)",
-      "function getNumber() view returns (uint256)",
-      "function _baseURI() view returns (string memory)",
-      "function setBaseURI(string)",
-      "function multiply()",
-    ],
-    provider
-  );
+  const tokenID = 5;
 
-  async function getContractAddressAndBalance() {
-    setAddress(contractUTB.address);
+  async function getSupplyAndBalanceNFT() {}
 
-    const balanceBN = await provider.getBalance(contractUTB.address);
-    setBalance(ethers.utils.formatEther(balanceBN));
-  }
+  async function getNftOwnerOf(id: number) {}
 
-  async function getNumber() {
-    const number = await contractUTB.getNumber();
-    alert(number);
-  }
+  async function getUTBAddressAndBalance() {}
 
-  async function mulitplyNumber() {
-    try {
-      await contractUTB.multiply();
-      getNumber();
-    } catch (e) {
-      alert(e);
-    }
-  }
+  async function getNumberUTB() {}
 
-  async function getURI() {
-    try {
-      const uri = await contractUTB._baseURI();
-      alert(uri);
-    } catch (e) {
-      alert(e);
-    }
-  }
+  async function mulitplyNumberUTB() {}
 
-  async function updateURI() {
-    try {
-      await contractUTB.setBaseURI();
-    } catch (e) {
-      alert(e);
-    }
-  }
+  async function getUriUTB() {}
+
+  async function mintUTB() {}
 
   return (
     <>
-      <ButtonBlue onClick={() => getContractAddressAndBalance()}>
-        Show contract address
+      <hr />
+      <Headline>Contract 01 - NFT collection</Headline>
+      <ButtonBlue onClick={() => getSupplyAndBalanceNFT()}>
+        Show NFT info
       </ButtonBlue>
-      <Headline>Contract</Headline>
-      {address !== "" && <InfoItem>Address: {address}</InfoItem>}
-      {balance !== "" && <InfoItem>Balance: {balance}</InfoItem>}
+      <InfoItem>Address: {addressNFT}</InfoItem>
+      <InfoItem>Supply: {supplyNFT}</InfoItem>
+      <InfoItem>Balance: {balanceNFT}</InfoItem>
 
-      <ButtonBlue onClick={() => getURI()}>Get URI</ButtonBlue>
-      <ButtonBlue onClick={() => updateURI()}>Update</ButtonBlue>
+      <ButtonBlue onClick={() => getNftOwnerOf(tokenID)}>
+        Get NFT ownerOf
+      </ButtonBlue>
+      <InfoItem>
+        Owner of token {tokenID}: {tokenOwner}
+      </InfoItem>
+
+      <hr />
+
+      <Headline>Contract 02 - UTB</Headline>
+      <ButtonBlue onClick={() => getUTBAddressAndBalance()}>
+        Show UTB info
+      </ButtonBlue>
+      {addressUTB !== "" && <InfoItem>Address: {addressUTB}</InfoItem>}
+      {balanceUTB !== "" && <InfoItem>Balance: {balanceUTB}</InfoItem>}
+      <br />
+
+      <ButtonBlue onClick={() => mintUTB()}>Mint</ButtonBlue>
+      <ButtonBlue onClick={() => getUriUTB()}>Get URI</ButtonBlue>
 
       <br />
 
-      <ButtonBlue onClick={() => getNumber()}>Show current number</ButtonBlue>
-      <ButtonBlue onClick={() => mulitplyNumber()}>
+      <ButtonBlue onClick={() => getNumberUTB()}>
+        Show current number
+      </ButtonBlue>
+      <ButtonBlue onClick={() => mulitplyNumberUTB()}>
         Multiply current number
       </ButtonBlue>
+      {currentNumber !== undefined && (
+        <>
+          <InfoItem>Current number: {currentNumber}</InfoItem>
+        </>
+      )}
     </>
   );
 };

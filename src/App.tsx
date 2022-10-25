@@ -10,7 +10,6 @@ function App() {
     <Background>
       <Wrapper>
         <AccountInfo />
-        <ButtonBlue>Multiply</ButtonBlue>
         <ContractInfo />
       </Wrapper>
     </Background>
